@@ -1,0 +1,9 @@
+# Datos para el dashboard
+# Los CSVs exportados desde Google Earth Engine (Script 08) se colocan aquí.
+# 
+# Archivos esperados:
+#   - Estadisticas_BancosArena.csv
+#   - Estadisticas_Mineria.csv
+#   - Serie_Temporal.csv
+#   - Correlacion_Proximidad.csv
+#

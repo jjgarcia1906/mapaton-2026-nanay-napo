@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+# Archivos SHP duplicados (ya estan como GeoJSON)
+data/*.shp
+data/*.shx
+data/*.dbf
+data/*.prj
+data/*.cpg

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flujo de Trabajo — Mapatón 2026 | Grupo 03</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    background: #f5f7fa; color: #1a1a2e; font-family: 'Segoe UI', Arial, sans-serif;
+    padding: 20px; min-height: 100vh;
+  }
+  h1 { text-align: center; color: #003366; margin-bottom: 5px; font-size: 1.6em; }
+  .subtitle { text-align: center; color: #555; margin-bottom: 30px; font-size: 0.9em; }
+
+  .flow-container { 
+    max-width: 1100px; margin: 0 auto; 
+    display: flex; flex-direction: column; gap: 15px;
+  }
+
+  .phase-label {
+    writing-mode: vertical-lr; text-orientation: mixed;
+    background: #003366; color: #fff; font-weight: bold; font-size: 0.9em;
+    padding: 12px 6px; border-radius: 8px; min-width: 34px;
+    display: flex; align-items: center; justify-content: center;
+    letter-spacing: 2px;
+  }
+  .phase-label.solution { background: #2e7d32; }
+  .phase-label.impact { background: #c62828; }
+
+  .row { display: flex; gap: 12px; align-items: stretch; }
+
+  .script-box {
+    background: #fff; border: 2px solid #d0d5dd; border-radius: 10px;
+    padding: 12px 14px; flex: 1; min-width: 0;
+    transition: all 0.2s;
+    position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .script-box:hover { border-color: #003366; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,51,102,0.15); }
+  .script-box.completed { border-color: #2e7d32; background: #f0faf0; }
+  .script-box.current { border-color: #003366; box-shadow: 0 0 0 3px rgba(0,51,102,0.2); }
+  .script-box.pending { border-color: #e0e3e8; opacity: 0.65; }
+
+  .script-id { 
+    font-size: 0.7em; color: #003366; font-weight: bold; margin-bottom: 4px;
+  }
+  .script-name { font-size: 0.85em; font-weight: bold; color: #1a1a2e; margin-bottom: 4px; }
+  .script-desc { font-size: 0.72em; color: #555; line-height: 1.4; }
+  .script-deps { font-size: 0.68em; color: #777; margin-top: 6px; font-style: italic; }
+
+  .arrow-row {
+    display: flex; justify-content: center; align-items: center;
+    height: 24px; color: #003366; font-size: 1.2em;
+  }
+
+  .parallel-group {
+    display: flex; gap: 12px; flex: 1;
+  }
+  .parallel-group .script-box { flex: 1; }
+
+  .legend {
+    display: flex; gap: 20px; justify-content: center; margin-top: 30px;
+    flex-wrap: wrap; font-size: 0.78em;
+  }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .legend .dot.done { background: #2e7d32; }
+  .legend .dot.active { background: #003366; }
+  .legend .dot.wait { background: #d0d5dd; }
+
+  .icon { margin-right: 4px; }
+  .note { 
+    text-align: center; color: #c62828; font-size: 0.75em; margin-top: 20px;
+    padding: 10px; background: #fff; border: 1px solid #fecaca; border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+
+<h1>🌊 Mapatón 2026 — Grupo 03: Los Jaguares</h1>
+<p class="subtitle">Flujo de Procesamiento — Google Earth Engine</p>
+
+<div class="flow-container">
+
+  <!-- FASE 0: SUBIR SHAPES -->
+  <div class="row">
+    <div class="phase-label">FASE 0</div>
+    <div class="script-box completed">
+      <div class="script-id">Script 00</div>
+      <div class="script-name">📤 Subir Shapes a GEE</div>
+      <div class="script-desc">Convierte SHP → GeoJSON y los sube como assets individuales (aoi_nanay, aoi_napo, cuencas_ana).</div>
+      <div class="script-deps">⚙️ Python + ogr2ogr | 📁 Output: 3 assets en Mapaton2026/</div>
+    </div>
+  </div>
+
+  <div class="arrow-row">⬇</div>
+
+  <!-- FASE 1: AOI -->
+  <div class="row">
+    <div class="phase-label">FASE 1</div>
+    <div class="script-box completed">
+      <div class="script-id">Script 01</div>
+      <div class="script-name">🗺️ Delimitar AOI</div>
+      <div class="script-desc">Combina geometrías Nanay + Napo en un solo FeatureCollection y visualiza el área de estudio.</div>
+      <div class="script-deps">📥 aoi_nanay + aoi_napo | 📁 Output: aoi_nanay_napo</div>
+    </div>
+  </div>
+
+  <div class="arrow-row">⬇</div>
+
+  <!-- FASE 2: DESCARGAR SENTINEL-2 -->
+  <div class="row">
+    <div class="phase-label">FASE 2</div>
+    <div class="script-box current">
+      <div class="script-id">Script 02 🔄 EN PROGRESO</div>
+      <div class="script-name">🛰️ Descargar Sentinel-2</div>
+      <div class="script-desc">Filtra ±146 imágenes por AOI, vaciante (ago–nov), nubes &lt;20%. Genera mosaico mediana por año (2019, 2021, 2023, 2024, 2025). Enmascara nubes con QA60.</div>
+      <div class="script-deps">📥 AOI combinado | ⏳ Output: 5 assets sentinel2_YYYY | ⌛ Tasks pendientes: 4/5</div>
+    </div>
+  </div>
+
+  <div class="arrow-row">⬇</div>
+
+  <!-- FASE 3: ÍNDICES -->
+  <div class="row">
+    <div class="phase-label">FASE 3</div>
+    <div class="script-box pending">
+      <div class="script-id">Script 03</div>
+      <div class="script-name">🔢 Índices Espectrales</div>
+      <div class="script-desc">Calcula NDVI (vegetación), NDWI (agua) y MNDWI (sedimentos/playas) sobre cada mosaico S2. Añade las 3 bandas al raster.</div>
+      <div class="script-deps">📥 sentinel2_YYYY | 📁 Output: 5 assets indices_YYYY</div>
+    </div>
+  </div>
+
+  <div class="arrow-row">⬇</div>
+
+  <!-- FASE 4: CLASIFICACIÓN (PARALELA) -->
+  <div class="row">
+    <div class="phase-label">FASE 4</div>
+    <div class="parallel-group">
+
+      <div class="script-box pending">
+        <div class="script-id">Script 04</div>
+        <div class="script-name">🏖️ Detección de Arena</div>
+        <div class="script-desc"><strong>4 reglas para playa:</strong><br>
+          ① MNDWI 0.0–0.35<br>
+          ② NDVI &lt; 0.15<br>
+          ③ Rojo (B4) 0.08–0.35<br>
+          ④ SWIR (B11) &lt; 0.12<br><br>
+          Si cumple las 4 → 🏖️ arena/playa</div>
+        <div class="script-deps">📥 indices_YYYY + sentinel2_YYYY | 📁 bancos_arena_YYYY</div>
+      </div>
+
+      <div class="script-box pending">
+        <div class="script-id">Script 05</div>
+        <div class="script-name">⛏️ Minería (Sentinel-2)</div>
+        <div class="script-desc"><strong>3 huellas de minería:</strong><br>
+          🟦 Piscinas: MNDWI 0.15–0.45 + NIR bajo<br>
+          🟫 Dragas: NDVI &lt;0.12 + SWIR alto<br>
+          🟨 Agua turbia: MNDWI 0–0.25 + Rojo alto</div>
+        <div class="script-deps">📥 indices_YYYY + sentinel2_YYYY | 📁 mineria_YYYY</div>
+      </div>
+
+      <div class="script-box pending">
+        <div class="script-id">Script 05b</div>
+        <div class="script-name">📡 Minería (Sentinel-1)</div>
+        <div class="script-desc"><strong>Radar ve a través de nubes:</strong><br>
+          🔩 Dragas: VV&gt;-12 dB + ratio VV/VH&gt;1.5<br>
+          🟫 Suelo removido: VV&gt;-15 dB + VH&gt;-22 dB<br><br>
+          <em>Respaldo cuando S2 tiene nubes</em></div>
+        <div class="script-deps">📥 Sentinel-1 GRD | 📁 mineria_s1_YYYY</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="arrow-row">⬇</div>
+
+  <!-- FASE 5: ANÁLISIS MULTITEMPORAL -->
+  <div class="row">
+    <div class="phase-label">FASE 5</div>
+    <div class="script-box pending">
+      <div class="script-id">Script 06</div>
+      <div class="script-name">🔄 Análisis Multitemporal</div>
+      <div class="script-desc">Compara 2019 vs 2025. Genera rasters de cambio (4 clases):
+        <strong>pérdida / ganancia / estable / sin presencia</strong> para arena y minería.
+        Calcula buffers concéntricos (500m–5km) y correlación espacial.</div>
+      <div class="script-deps">📥 bancos_arena_2019,2025 + mineria_2019,2025 | 📁 cambio_arena + cambio_mineria</div>
+    </div>
+  </div>
+
+  <div class="arrow-row">⬇</div>
+
+  <!-- FASE 6: EXPORTAR -->
+  <div class="row">
+    <div class="phase-label">FASE 6</div>
+    <div class="parallel-group">
+      <div class="script-box pending">
+        <div class="script-id">Script 07</div>
+        <div class="script-name">💾 Exportar Rasters y Vectores</div>
+        <div class="script-desc">Exporta todo a Google Drive:<br>
+          • GeoTIFF (arena, minería, cambio)<br>
+          • SHP (polígonos de minería, AOI)<br>
+          • RGB composites (mapas base)</div>
+        <div class="script-deps">📥 Todos los assets | 📁 Google Drive</div>
+      </div>
+
+      <div class="script-box pending">
+        <div class="script-id">Script 08</div>
+        <div class="script-name">📊 Estadísticas para Dashboard</div>
+        <div class="script-desc">Genera 4 CSVs:<br>
+          ① Estadisticas_BancosArena.csv<br>
+          ② Estadisticas_Mineria.csv<br>
+          ③ Serie_Temporal.csv<br>
+          ④ Correlacion_Proximidad.csv</div>
+        <div class="script-deps">📥 Todos los assets | 📁 Google Drive → Dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row">⬇</div>
+
+  <!-- FASE 7: DASHBOARD -->
+  <div class="row">
+    <div class="phase-label solution">SOLUCIÓN</div>
+    <div class="script-box pending" style="border-color:#00e676;">
+      <div class="script-name">📱 Dashboard Interactivo (Streamlit)</div>
+      <div class="script-desc">
+        Mapa interactivo + KPIs + Gráficos Plotly + Filtros por año/cuenca.<br>
+        <strong>Ejecutar:</strong> <code>streamlit run app.py</code><br>
+        <strong>URL local:</strong> http://localhost:8501
+      </div>
+      <div class="script-deps">📥 4 CSVs del Script 08 | 📁 dashboard/data/</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LEYENDA -->
+<div class="legend">
+  <span><span class="dot done"></span> Completado</span>
+  <span><span class="dot active"></span> En progreso</span>
+  <span><span class="dot wait"></span> Pendiente</span>
+</div>
+
+<div class="note">
+  💡 <strong>Tip para conexión limitada:</strong> Los scripts 02–08 corren en los servidores de Google. Solo necesitás internet para cargar el código en el editor y ejecutar los Tasks. Las descargas a Drive se hacen después, cuando tengas mejor conexión.
+</div>
+
+</body>
+</html>

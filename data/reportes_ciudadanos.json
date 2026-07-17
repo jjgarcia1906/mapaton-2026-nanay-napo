@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "fecha": "2026-07-16T22:23:23.804605",
+    "tipo": "Otra evidencia de mineria",
+    "descripcion": "aqui se evidencia presencia de draga",
+    "contacto": "Anonimo ",
+    "latitud": -3.765104,
+    "longitud": -74.099822,
+    "coordenadas_raw": [
+      -74.099822,
+      -3.765104
+    ]
+  },
+  {
+    "tipo": "Draga activa en el rio",
+    "descripcion": "Vi dos dragas en la zona de diamante azul a una hora de santa maria del nanay",
+    "contacto": "anonimo - sin numero ",
+    "latitud": -3.856738,
+    "longitud": -75.393378,
+    "utm_este": 456325.0,
+    "utm_norte": 9573698.0,
+    "utm_zona": "18S",
+    "fecha_observacion": "2026-07-16",
+    "id": 2,
+    "fecha": "2026-07-16T22:35:10.842145"
+  },
+  {
+    "tipo": "Draga activa en el rio",
+    "descripcion": "se vio una draga en el rio a 5 vueltas de la ccnn diamante azul",
+    "contacto": "anonimo - ",
+    "latitud": -3.803665,
+    "longitud": -74.053989,
+    "utm_este": 622660.1,
+    "utm_norte": 0.0,
+    "utm_zona": "18S",
+    "fecha_observacion": "2026-07-16",
+    "id": 3,
+    "fecha": "2026-07-16T22:45:50.504448"
+  },
+  {
+    "tipo": "Draga activa en el rio",
+    "descripcion": "vi dos dragas operando ",
+    "contacto": "anonimo  - ",
+    "latitud": -3.462704,
+    "longitud": -73.155384,
+    "utm_este": -3.462704,
+    "utm_norte": -73.155384,
+    "utm_zona": "18S",
+    "fecha_observacion": "2026-07-16",
+    "id": 4,
+    "fecha": "2026-07-16T22:51:20.047973"
+  }
+]
