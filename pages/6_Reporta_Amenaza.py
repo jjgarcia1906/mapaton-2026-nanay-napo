@@ -181,11 +181,5 @@ with col_form:
             for k in ["punto_colocado", "reporte_este", "reporte_norte", "reporte_lat", "reporte_lon"]:
                 st.session_state[k] = 0.0 if k != "punto_colocado" else False
 
-# Historial
-st.divider()
-with st.expander(f"📋 Reportes anteriores ({len(cargar_reportes())} registros)"):
-    reportes = cargar_reportes()
-    for r in reversed(reportes[-20:]):
-        st.markdown(f"**#{r['id']}** - {r.get('fecha','')[:10]} - {r.get('tipo','')}")
-        st.caption(f"UTM: {r.get('utm_este','')}, {r.get('utm_norte','')}")
-        st.divider()
+# Historial (solo visible para admin - no se muestra al publico)
+# Los reportes se guardan pero no se muestran en la interfaz
