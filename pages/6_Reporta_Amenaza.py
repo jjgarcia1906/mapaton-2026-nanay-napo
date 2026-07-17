@@ -71,7 +71,43 @@ with col_mapa:
         edit_options={"edit": True, "remove": True},
     ).add_to(m)
 
-    resultado = st_folium(m, width=650, height=500, returned_objects=["last_active_drawing"])
+    # Boton de geolocalizacion
+    st.markdown("""
+    <button onclick="getLocation()" style="background:#003366;color:white;border:none;
+    padding:6px 12px;border-radius:4px;cursor:pointer;margin-top:5px;font-size:14px;">
+    📍 Usar mi ubicacion actual</button>
+    <script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var lat = pos.coords.latitude.toFixed(6);
+                var lon = pos.coords.longitude.toFixed(6);
+                window.location.href = window.location.pathname + '?lat=' + lat + '&lon=' + lon;
+            }, function(err) {
+                alert('No se pudo obtener tu ubicacion. Permite el acceso a GPS en tu navegador.');
+            });
+        } else {
+            alert('Tu navegador no soporta geolocalizacion.');
+        }
+    }
+    </script>
+    """, unsafe_allow_html=True)
+
+    resultado = st_folium(m, width=None, height=500, returned_objects=["last_active_drawing"])
+
+    # Si vienen coordenadas por URL (geolocalizacion)
+    query = st.query_params
+    if "lat" in query and "lon" in query:
+        try:
+            lat_u = float(query["lat"]); lon_u = float(query["lon"])
+            e, n = t_wgs84_utm.transform(lon_u, lat_u)
+            st.session_state.reporte_este = round(e, 1)
+            st.session_state.reporte_norte = round(n, 1)
+            st.session_state.reporte_lat = round(lat_u, 6)
+            st.session_state.reporte_lon = round(lon_u, 6)
+            st.session_state.punto_colocado = True
+        except:
+            pass
 
     if resultado and resultado.get("last_active_drawing"):
         dibujo = resultado["last_active_drawing"]

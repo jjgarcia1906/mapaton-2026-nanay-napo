@@ -16,6 +16,21 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# --- PWA + Meta tags ---
+st.markdown("""
+<link rel="manifest" href="/app/static/manifest.json">
+<meta name="theme-color" content="#003366">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Alerta Mineria">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/app/static/sw.js');
+}
+</script>
+""", unsafe_allow_html=True)
+
 # ─── Imports de componentes ───
 from components.filtros import renderizar_filtros
 from components.estadisticas import renderizar_kpis
